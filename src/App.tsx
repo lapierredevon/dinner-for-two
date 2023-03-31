@@ -7,7 +7,7 @@ function App() {
   return (
     <div>
       <Header />
-      <div>
+      <div className="max-h-screen">
         <Outlet />
       </div>
     </div>
