@@ -17,15 +17,14 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-slate-600 text-stone-100">
+    <header className="bg-slate-900 text-stone-100">
       <nav>
         <div className="hidden md:flex justify-end max-w-screen h-[80px]">
           <div className="flex items-end space-x-4">
             <Link to={"/home"}>Home</Link>
             <Link to={"/menu"}>Menu</Link>
-            <Link to={"/about"}>About</Link>
             <Link to={"/contact"}>Contact</Link>
-            <Link to={"/reservations"}>Reservations</Link>
+            <Link to={"/order"}>Order</Link>
           </div>
         </div>
         <div className="md:hidden flex justify-start h-[auto] space-x-4">
@@ -50,10 +49,9 @@ export default function Header() {
           {displayMobileNavMenu && (
             <div className="flex flex-col items-start space-y-3  animate-slide-in">
               <Link to={"/home"}>Home</Link>
-              <Link to={"/menu"}>Menu</Link>
-              <Link to={"/about"}>About</Link>
-              <Link to={"/contact"}>Contact</Link>
-              <Link to={"/reservations"}>Reservations</Link>
+              <Link to={"/menu"}>order</Link>
+              <Link to={"/contact"}>About</Link>
+              <Link to={"/order"}>Contact</Link>
             </div>
           )}
         </div>

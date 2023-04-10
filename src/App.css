@@ -2,7 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-video {
-  height: 100%;
-  width: 100%;
+p {
+  font-family: "Roboto Condensed";
+}
+
+h1 {
+  font-family: "Roboto Condensed";
 }

@@ -2,13 +2,17 @@ import React from "react";
 import "./App.css";
 import Header from "./navigation/header";
 import { Outlet } from "react-router-dom";
+import Footer from "./navigation/footer";
 
 function App() {
   return (
     <div>
       <Header />
-      <div className="max-h-screen">
+      <div>
         <Outlet />
+      </div>
+      <div>
+        <Footer />
       </div>
     </div>
   );
