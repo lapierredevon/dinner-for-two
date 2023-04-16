@@ -1,6 +1,17 @@
-import { promises } from "stream";
-
 const API_BASE_URL = "http://localhost:5001";
+
+// const loadMenu = async () => {
+//   url = `${API_BASE_URL}/sushi`;
+//   const menu = await fetch(API_BASE_URL);
+//   const response = await menu.json();
+
+//   return response;
+// };
+
+// export async function loader(): Promise<any> {
+//   let menu = await loadMenu();
+//   return { menu };
+// }
 
 const headers = new Headers();
 headers.append("Content-Type", "application/json");
@@ -33,9 +44,7 @@ const fetchJson = async (
   }
 };
 
-export default async function recallMenuItems(
-  signal: AbortSignal
-): Promise<any> {
+export default async function loader(signal?: AbortSignal): Promise<any> {
   url = `${API_BASE_URL}/sushi`;
-  return await fetchJson(url, { signal });
+  await fetchJson(url, { signal });
 }

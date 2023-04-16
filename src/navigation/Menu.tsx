@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import motion from "framer-motion";
 import menuRoll from "../imagesAndVideos/menuRolls.png";
+// import loader from "../utils/api";
 
 /**
  * Work on backend
@@ -8,7 +9,24 @@ import menuRoll from "../imagesAndVideos/menuRolls.png";
  * Then add the current styling
  * @returns tsx
  */
+
 export default function Menu() {
+  const [menu, setMenu] = useState([]);
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    const loadMenu = async () => {
+      let menuItems = await fetch("http://localhost:5001/sushi");
+      let displayMenu = await menuItems.json();
+      console.log(displayMenu);
+      setMenu(displayMenu);
+      // console.log(menu);
+    };
+
+    loadMenu();
+    return () => abortController.abort();
+  }, []);
+
   return (
     <div className="bg-emerald-950 text-stone-100 h-screen">
       <h1 className="text-center md:text-7xl mb-7">Rolls</h1>

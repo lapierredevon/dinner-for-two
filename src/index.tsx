@@ -8,6 +8,9 @@ import Menu from "./navigation/Menu";
 import ErrorRoute from "./navigation/ErrorPage";
 import Contact from "./navigation/Contact";
 
+/**
+ * Continue to work on loader function for this project;
+ */
 const router = createBrowserRouter([
   {
     path: "/",
