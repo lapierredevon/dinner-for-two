@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 /**
- * Add the button - complete
- * Create click event for button
- * useState to store boolean value. - complete
- * if boolean value is set to true the menu should show
- * button should cause the menu to be displayed
+ * Animate Mobile Screen Button
  * @returns
  */
 export default function Header() {
@@ -47,11 +44,18 @@ export default function Header() {
             </button>
           </div>
           {displayMobileNavMenu && (
-            <div className="flex flex-col items-start space-y-3  animate-slide-in">
-              <Link to={"/home"}>Home</Link>
-              <Link to={"/menu"}>order</Link>
-              <Link to={"/contact"}>About</Link>
-              <Link to={"/order"}>Contact</Link>
+            <div className="relative">
+              <div
+                className="flex flex-col items-start space-y-3  animate-slide-in absolute z-10
+                bg-slate-900 w-screen
+              "
+                style={{ top: "100%", left: -40 }}
+              >
+                <Link to={"/home"}>Home</Link>
+                <Link to={"/menu"}>Menu</Link>
+                <Link to={"/contact"}>Contact</Link>
+                <Link to={"/order"}>Order</Link>
+              </div>
             </div>
           )}
         </div>
