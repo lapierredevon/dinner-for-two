@@ -7,6 +7,7 @@ import { AnimatePresence } from "framer-motion";
 import Menu from "./navigation/Menu";
 import ErrorRoute from "./navigation/ErrorPage";
 import Contact from "./navigation/Contact";
+import Orders from "./navigation/Orders";
 
 /**
  * Continue to work on loader function for this project;
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "/contact",
         element: <Contact />,
+      },
+      {
+        path: "/order",
+        element: <Orders />,
       },
     ],
   },

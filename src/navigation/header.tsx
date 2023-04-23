@@ -46,7 +46,7 @@ export default function Header() {
           {displayMobileNavMenu && (
             <div className="relative">
               <div
-                className="flex flex-col items-start space-y-3  animate-slide-in absolute z-10
+                className="flex flex-col items-start space-y-3  animate-slide-in absolute z-100
                 bg-slate-900 w-screen
               "
                 style={{ top: "100%", left: -40 }}

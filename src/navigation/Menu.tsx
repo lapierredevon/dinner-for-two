@@ -17,7 +17,7 @@ export default function Menu() {
     updated_at?: string;
   }
 
-  const [menu, setMenu] = useState<MenuList[]>([]);
+  const [menu, SetMenu] = useState<MenuList[]>([]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -25,7 +25,7 @@ export default function Menu() {
       let menuItems = await fetch("http://localhost:5001/sushi");
       let displayMenu = await menuItems.json();
       console.log("test", displayMenu);
-      setMenu(displayMenu.data);
+      SetMenu(displayMenu.data);
     };
 
     loadMenu();
