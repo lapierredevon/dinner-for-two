@@ -1,3 +1,5 @@
+import { error } from "console";
+
 const API_BASE_URL = "http://localhost:5001";
 
 // const loadMenu = async () => {
@@ -44,7 +46,25 @@ const fetchJson = async (
   }
 };
 
-export default async function loader(signal?: AbortSignal): Promise<any> {
+export async function loader(signal?: AbortSignal): Promise<any> {
   url = `${API_BASE_URL}/sushi`;
   await fetchJson(url, { signal });
+}
+
+export async function postData(url: string = "", data = {}) {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not okay");
+  }
+
+  const responseData = await response.json();
+
+  return responseData;
 }

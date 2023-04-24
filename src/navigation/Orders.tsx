@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import AddToCart from "./AddToCart";
+import { postData } from "../utils/api";
 
 export default function Orders() {
   interface CurrentOrder {
@@ -53,7 +54,7 @@ export default function Orders() {
 
   console.log(sushiOrder);
   return (
-    <div className="bg-emerald-950 h-screen text-stone-100">
+    <div className="bg-emerald-950 h-fill text-stone-100">
       <div className="flex justify-start ml-5 pt-3">
         <svg
           width="24"
@@ -112,8 +113,16 @@ export default function Orders() {
                 ))}
               </ul>
             )}
-            <div className="md:ml-[250px] md:text-xl mt-5">
-              <button className="bg-slate-900 w-48 h-9 rounded-lg">
+            <div className="md:ml-[250px] md:text-xl mt-5 mb-10">
+              <button
+                className="bg-slate-900 w-48 h-9 rounded-lg"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  console.log(sushiOrder);
+                  // add code for making a post request and handeling the promises return info.
+                  // postData("");
+                }}
+              >
                 Submit Purchase
               </button>
             </div>
