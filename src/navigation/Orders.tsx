@@ -3,38 +3,35 @@ import { motion } from "framer-motion";
 import AddToCart from "./AddToCart";
 import { postData } from "../utils/api";
 
-export default function Orders() {
-  interface CurrentOrder {
-    order: {
-      menu_item: string;
-      price: number;
-      quantity: number;
-    }[];
-  }
-
-  interface MenuList {
-    created_at?: string;
+interface CurrentOrder {
+  order: {
     menu_item: string;
     price: number;
-    sushi_id: number;
-    updated_at?: string;
-  }
+    quantity: number;
+  }[];
+}
 
+interface MenuList {
+  created_at?: string;
+  menu_item: string;
+  price: number;
+  sushi_id?: number;
+  updated_at?: string;
+  id?: number;
+}
+export default function Orders() {
   const [sushiOrder, setSushiOrder] = useState<CurrentOrder[]>([]);
   const [menu, setMenu] = useState<MenuList[]>([]);
+  const [tempId, setTempId] = useState<number>(0);
 
-  //creates a state to trigger when pop-up displays
   const [popUp, setPopUp] = useState(false);
+  const [addOrder, setAddOrder] = useState<MenuList>({
+    menu_item: "",
+    price: 0,
+    sushi_id: 0,
+    id: 0,
+  });
 
-  // Create a useState to keep track of the Sushi id
-  const [sushiMenuItem, setSushiMenuItem] = useState<string>("");
-  const [itemPrice, setItemPrice] = useState<number>(0);
-
-  /**
-   * create a useEffect that triggers any time a sushi is selected.
-   * useEffect needs to cause the pop to appear and change the quantity useState to true.
-   * when the form is submitted the pop-up box will close and set the useState back to false.
-   */
   useEffect(() => {
     const abortController = new AbortController();
     const loadMenu = async () => {
@@ -48,11 +45,11 @@ export default function Orders() {
   }, []);
 
   useEffect(() => {
-    if (sushiMenuItem) setPopUp(true);
-    console.log(sushiMenuItem, itemPrice);
-  }, [sushiMenuItem]);
+    if (addOrder.menu_item !== "" && addOrder.id === tempId) {
+      setPopUp(true);
+    }
+  }, [tempId]);
 
-  console.log(sushiOrder);
   return (
     <div className="bg-emerald-950 h-fill text-stone-100">
       <div className="flex justify-start ml-5 pt-3">
@@ -87,11 +84,12 @@ export default function Orders() {
             {popUp === true && (
               <div>
                 <AddToCart
-                  menu_item={sushiMenuItem}
-                  price={itemPrice}
+                  item={addOrder}
                   addToOrder={setSushiOrder}
-                  popUp={popUp}
+                  id={tempId}
+                  setId={setTempId}
                   setPopUp={setPopUp}
+                  setAddOrder={setAddOrder}
                   currentOrder={sushiOrder}
                 />
               </div>
@@ -102,8 +100,17 @@ export default function Orders() {
                   <motion.li
                     key={meal.sushi_id}
                     onClick={() => {
-                      setSushiMenuItem(meal.menu_item);
-                      setItemPrice(meal.price);
+                      // setSushiMenuItem(meal.menu_item);
+                      // setItemPrice(meal.price);
+                      setTempId((tempId) => tempId + 1);
+                      setAddOrder({
+                        menu_item: meal.menu_item,
+                        price: meal.price,
+                        sushi_id: meal.sushi_id,
+                        id: tempId + 1,
+                      });
+                      console.log("tempId Counter", tempId);
+                      console.log("addOrder.id", addOrder.id);
                     }}
                     whileHover={{ scale: 1.5, color: "#FFD700" }}
                     transition={{ type: "spring", stiffness: 200 }}

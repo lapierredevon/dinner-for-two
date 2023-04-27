@@ -2,27 +2,51 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 /**
- * when the form is submitted the pop-up box should close and set the useState back to false so the useState value also needs to be passed in as a prop.
- *
+ * find out how to use the setStateAction function to pass down state
+ * fix the sushiOrder function that is passed into the AddtoCart function. The Sushi order function should be an object within object
  */
-export default function AddToCart(meal: {
+
+interface ItemQuantity {
   menu_item: string;
   price: number;
-  addToOrder: any;
-  currentOrder: any;
-  popUp: any;
-  setPopUp: any;
-}) {
-  interface ItemQuantity {
+  quantity: number;
+}
+
+interface returnAddOrderInitialState {
+  menu_item: string;
+  price: number;
+  sushi_id?: number;
+  id?: number;
+}
+
+interface MealInfo {
+  item: {
     menu_item: string;
     price: number;
-    quantity: number;
-  }
+    sushi_id?: number;
+    id?: number;
+  };
+  addToOrder: any;
+  currentOrder: any;
+  setPopUp: (toggle: boolean) => void;
+  id: number;
+  setId: (id: number) => void;
+  setAddOrder: (initialOrder: returnAddOrderInitialState) => void;
+}
 
+interface ItemQuantity {
+  menu_item: string;
+  price: number;
+  quantity: number;
+  id: number;
+}
+
+export default function AddToCart(meal: MealInfo) {
   const [item, SetItem] = useState<ItemQuantity>({
-    menu_item: meal.menu_item,
-    price: meal.price,
+    menu_item: meal.item.menu_item,
+    price: meal.item.price,
     quantity: 0,
+    id: meal.id,
   });
 
   return (
@@ -33,14 +57,25 @@ export default function AddToCart(meal: {
             className=" bg-slate-900 h-36 rounded-lg"
             onSubmit={(event) => {
               event.preventDefault();
-              let arr: any[] = [...meal.currentOrder, { item }];
-              meal.addToOrder(arr);
-              meal.setPopUp(!meal.popUp);
+              try {
+                let arr: any[] = [...meal.currentOrder, { item }];
+                meal.addToOrder(arr);
+                meal.setId(0);
+                meal.setAddOrder({
+                  menu_item: "",
+                  price: 0,
+                  sushi_id: 0,
+                  id: 0,
+                });
+                meal.setPopUp(false);
+              } catch (error) {
+                console.log(error);
+              }
             }}
           >
             <div className="flex space-x-7">
-              <p className="mt-5 ml-5">{meal.menu_item}</p>
-              <p className="mt-5 ml-5">{`$${meal.price}.00`}</p>
+              <p className="mt-5 ml-5">{meal.item.menu_item}</p>
+              <p className="mt-5 ml-5">{`$${meal.item.price}.00`}</p>
             </div>
             <label htmlFor="quantity" className="ml-5">
               Quantity
