@@ -4,11 +4,9 @@ import AddToCart from "./AddToCart";
 import { postData } from "../utils/api";
 
 interface CurrentOrder {
-  order: {
-    menu_item: string;
-    price: number;
-    quantity: number;
-  }[];
+  menu_item?: string;
+  price?: number;
+  quantity?: number;
 }
 
 interface MenuList {
@@ -123,7 +121,7 @@ export default function Orders() {
             <div className="md:ml-[250px] md:text-xl mt-5 mb-10">
               <button
                 className="bg-slate-900 w-48 h-9 rounded-lg"
-                onSubmit={(event) => {
+                onClick={(event) => {
                   event.preventDefault();
                   console.log(sushiOrder);
                   // add code for making a post request and handeling the promises return info.

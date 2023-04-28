@@ -6,11 +6,14 @@ import { motion } from "framer-motion";
  * fix the sushiOrder function that is passed into the AddtoCart function. The Sushi order function should be an object within object
  */
 
-interface ItemQuantity {
+/**
+ * potentially delete filler interface 
+ * interface ItemQuantity {
   menu_item: string;
   price: number;
   quantity: number;
 }
+ */
 
 interface returnAddOrderInitialState {
   menu_item: string;
@@ -27,7 +30,7 @@ interface MealInfo {
     id?: number;
   };
   addToOrder: any;
-  currentOrder: any;
+  currentOrder: AddOrderItemToArray[];
   setPopUp: (toggle: boolean) => void;
   id: number;
   setId: (id: number) => void;
@@ -39,6 +42,12 @@ interface ItemQuantity {
   price: number;
   quantity: number;
   id: number;
+}
+
+interface AddOrderItemToArray {
+  menu_item?: string;
+  price?: number;
+  quantity?: number;
 }
 
 export default function AddToCart(meal: MealInfo) {
