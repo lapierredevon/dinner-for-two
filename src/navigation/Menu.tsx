@@ -34,7 +34,7 @@ export default function Menu() {
 
   console.log("test 2", menu);
   return (
-    <div className="bg-emerald-950 text-stone-100 sm:h-screen md:h-fit">
+    <div className="bg-emerald-950 text-stone-100 sm:h-screen md:h-fill">
       <h1 className="text-center text-3xl md:text-6xl mb-7">Rolls</h1>
       <div>
         <div>

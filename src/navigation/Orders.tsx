@@ -3,6 +3,11 @@ import { motion } from "framer-motion";
 import AddToCart from "./AddToCart";
 import { postData } from "../utils/api";
 
+/**
+ * Work on sending posts request to database
+ * Create the final order page with an option to edit the data in the database
+ */
+
 interface CurrentOrder {
   menu_item?: string;
   price?: number;
@@ -17,6 +22,21 @@ interface MenuList {
   updated_at?: string;
   id?: number;
 }
+
+/**
+ * Create a function that can handle post request
+ * @returns
+ */
+
+const postToDataBase = async (url: string, item: Array<MenuList>) => {
+  try {
+    const dataToServer = await postData(url, item);
+    console.log(dataToServer);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export default function Orders() {
   const [sushiOrder, setSushiOrder] = useState<CurrentOrder[]>([]);
   const [menu, setMenu] = useState<MenuList[]>([]);
@@ -75,7 +95,7 @@ export default function Orders() {
         </svg>
         <p className="ml-2">{sushiOrder.length}</p>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center md:mt-20">
         <div className="flex flex-col">
           <h1 className="text-3xl md:text-6xl mt-5">Place Your Order</h1>
           <div className="mt-5">
@@ -123,9 +143,12 @@ export default function Orders() {
                 className="bg-slate-900 w-48 h-9 rounded-lg"
                 onClick={(event) => {
                   event.preventDefault();
-                  console.log(sushiOrder);
-                  // add code for making a post request and handeling the promises return info.
-                  // postData("");
+                  const sendOrder = {
+                    receipt: sushiOrder,
+                  };
+                  console.log(sendOrder);
+                  // postToDataBase("http://localhost:5001/orders", sushiOrder);
+                  // add code for making a post request and handling the promises return info.
                 }}
               >
                 Submit Purchase

@@ -38,16 +38,17 @@ interface MealInfo {
 }
 
 interface ItemQuantity {
-  menu_item: string;
-  price: number;
-  quantity: number;
-  id: number;
+  menu_item?: string;
+  price?: number;
+  quantity?: number;
+  id?: number;
 }
 
 interface AddOrderItemToArray {
   menu_item?: string;
   price?: number;
   quantity?: number;
+  id?: number;
 }
 
 export default function AddToCart(meal: MealInfo) {
@@ -55,7 +56,8 @@ export default function AddToCart(meal: MealInfo) {
     menu_item: meal.item.menu_item,
     price: meal.item.price,
     quantity: 0,
-    id: meal.id,
+    // Consider deleting meal.id if it is sent to post request successfully
+    // id: meal.id,
   });
 
   return (
@@ -67,7 +69,7 @@ export default function AddToCart(meal: MealInfo) {
             onSubmit={(event) => {
               event.preventDefault();
               try {
-                let arr: any[] = [...meal.currentOrder, { item }];
+                let arr: ItemQuantity[] = [...meal.currentOrder, item];
                 meal.addToOrder(arr);
                 meal.setId(0);
                 meal.setAddOrder({
@@ -97,7 +99,7 @@ export default function AddToCart(meal: MealInfo) {
               value={item.quantity}
               min={1}
               onChange={({ target }) => {
-                SetItem({ ...item, [target.name]: target.value });
+                SetItem({ ...item, [target.name]: Number(target.value) });
                 console.log(item);
               }}
             />

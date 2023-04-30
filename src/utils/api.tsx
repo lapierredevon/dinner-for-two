@@ -51,7 +51,10 @@ export async function loader(signal?: AbortSignal): Promise<any> {
   await fetchJson(url, { signal });
 }
 
-export async function postData(url: string = "", data = {}) {
+export async function postData(
+  url: string = "http://localhost:5001/orders",
+  data = {}
+) {
   const response = await fetch(url, {
     method: "POST",
     headers: {
