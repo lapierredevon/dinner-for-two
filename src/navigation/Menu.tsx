@@ -4,10 +4,9 @@ import menuRoll from "../imagesAndVideos/menuRolls.png";
 // import loader from "../utils/api";
 
 /**
- * Fix the font size make mobiley responsive
- * @returns tsxcreated_at
+ * Fix the font size make mobile responsive
+ * @returns tsx created_at
  */
-
 export default function Menu() {
   interface MenuList {
     created_at?: string;

@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import AddToCart from "./AddToCart";
 import { postData } from "../utils/api";
-
-/**
- * Work on sending posts request to database
- * Create the final order page with an option to edit the data in the database
- */
+import { useNavigate } from "react-router-dom";
 
 interface CurrentOrder {
   menu_item?: string;
@@ -23,24 +19,20 @@ interface MenuList {
   id?: number;
 }
 
+interface Receipt {
+  receipt: Array<CurrentOrder>;
+}
+
 /**
  * Create a function that can handle post request
  * @returns
  */
 
-const postToDataBase = async (url: string, item: Array<MenuList>) => {
-  try {
-    const dataToServer = await postData(url, item);
-    console.log(dataToServer);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export default function Orders() {
   const [sushiOrder, setSushiOrder] = useState<CurrentOrder[]>([]);
   const [menu, setMenu] = useState<MenuList[]>([]);
   const [tempId, setTempId] = useState<number>(0);
+  const navigate = useNavigate();
 
   const [popUp, setPopUp] = useState(false);
   const [addOrder, setAddOrder] = useState<MenuList>({
@@ -49,6 +41,16 @@ export default function Orders() {
     sushi_id: 0,
     id: 0,
   });
+
+  const postToDataBase = async (item: Receipt) => {
+    try {
+      const dataToServer = await postData(item);
+      console.log("Server", dataToServer.order_id);
+      navigate(`/confirmation/${dataToServer.order_id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -143,12 +145,10 @@ export default function Orders() {
                 className="bg-slate-900 w-48 h-9 rounded-lg"
                 onClick={(event) => {
                   event.preventDefault();
-                  const sendOrder = {
+                  const sendOrder: Receipt = {
                     receipt: sushiOrder,
                   };
-                  console.log(sendOrder);
-                  // postToDataBase("http://localhost:5001/orders", sushiOrder);
-                  // add code for making a post request and handling the promises return info.
+                  postToDataBase(sendOrder);
                 }}
               >
                 Submit Purchase

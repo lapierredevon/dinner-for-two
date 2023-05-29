@@ -36,6 +36,7 @@ const fetchJson = async (
     if (payload.error) {
       throw new Error(payload.error);
     }
+    console.log(payload);
     return payload.data;
   } catch (error: any) {
     if (error.name !== "AbortError") {
@@ -51,16 +52,48 @@ export async function loader(signal?: AbortSignal): Promise<any> {
   await fetchJson(url, { signal });
 }
 
-export async function postData(
+interface Receipt {
+  receipt: Array<CurrentOrder>;
+}
+
+interface CurrentOrder {
+  menu_item?: string;
+  price?: number;
+  quantity?: number;
+}
+
+// export async function postTables(table, signal) {
+//   const url = `${API_BASE_URL}/tables`;
+//   const options = {
+//     method: "POST",
+//     headers,
+//     body: JSON.stringify({ data: table }),
+//     signal,
+//   };
+//   return await fetchJson(url, options, {});
+// }
+
+export async function postData(data: Receipt) {
+  const url = `${API_BASE_URL}/orders`;
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ data: data }),
+  };
+  return fetchJson(url, options);
+}
+
+/** 
+ * export async function postData(
   url: string = "http://localhost:5001/orders",
-  data = {}
+  data: Receipt
 ) {
   const response = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify({ data: data }),
   });
 
   if (!response.ok) {
@@ -71,3 +104,4 @@ export async function postData(
 
   return responseData;
 }
+*/

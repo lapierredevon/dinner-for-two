@@ -8,6 +8,7 @@ import Menu from "./navigation/Menu";
 import ErrorRoute from "./navigation/ErrorPage";
 import Contact from "./navigation/Contact";
 import Orders from "./navigation/Orders";
+import ConfirmationPage from "./navigation/ConfirmationPage";
 
 /**
  * Continue to work on loader function for this project;
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/order",
         element: <Orders />,
+      },
+      {
+        path: "/confirmation/:orderId",
+        element: <ConfirmationPage />,
       },
     ],
   },
