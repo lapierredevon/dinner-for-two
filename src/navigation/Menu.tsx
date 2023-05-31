@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
-import motion from "framer-motion";
 import menuRoll from "../imagesAndVideos/menuRolls.png";
-// import loader from "../utils/api";
+import { loader } from "../utils/api";
 
-/**
- * Fix the font size make mobile responsive
- * @returns tsx created_at
- */
 export default function Menu() {
   interface MenuList {
     created_at?: string;
@@ -16,30 +11,24 @@ export default function Menu() {
     updated_at?: string;
   }
 
-  const [menu, SetMenu] = useState<MenuList[]>([]);
-
+  const [menu, setMenu] = useState<MenuList[]>([]);
   useEffect(() => {
     const abortController = new AbortController();
-    const loadMenu = async () => {
-      let menuItems = await fetch("http://localhost:5001/sushi");
-      let displayMenu = await menuItems.json();
-      console.log("test", displayMenu);
-      SetMenu(displayMenu.data);
-    };
-
-    loadMenu();
+    (async function () {
+      const loadMenu = await loader(abortController.signal);
+      await setMenu(loadMenu);
+    })();
     return () => abortController.abort();
   }, []);
 
-  console.log("test 2", menu);
   return (
-    <div className="bg-emerald-950 text-stone-100 sm:h-screen md:h-fill">
+    <div className="bg-emerald-950 text-stone-100 sm:h-screen md:h-fit">
       <h1 className="text-center text-3xl md:text-6xl mb-7">Rolls</h1>
       <div>
         <div>
           <div className="flex md:justify-evenly ">
             <div className="flex flex-col mr-5">
-              {menu !== null &&
+              {menu !== undefined &&
                 menu.map((meal) => (
                   <div
                     key={meal.sushi_id}

@@ -8,7 +8,7 @@ function App() {
   return (
     <div>
       <Header />
-      <div className="h-screen bg-emerald-950">
+      <div className="min-h-screen bg-emerald-950">
         <Outlet />
       </div>
       <div>

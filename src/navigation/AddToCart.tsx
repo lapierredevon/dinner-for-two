@@ -1,20 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
-/**
- * find out how to use the setStateAction function to pass down state
- * fix the sushiOrder function that is passed into the AddtoCart function. The Sushi order function should be an object within object
- */
-
-/**
- * potentially delete filler interface 
- * interface ItemQuantity {
-  menu_item: string;
-  price: number;
-  quantity: number;
-}
- */
-
 interface returnAddOrderInitialState {
   menu_item: string;
   price: number;
@@ -56,8 +42,6 @@ export default function AddToCart(meal: MealInfo) {
     menu_item: meal.item.menu_item,
     price: meal.item.price,
     quantity: 0,
-    // Consider deleting meal.id if it is sent to post request successfully
-    // id: meal.id,
   });
 
   return (
@@ -65,7 +49,7 @@ export default function AddToCart(meal: MealInfo) {
       <div className="absolute inset-0">
         <div>
           <form
-            className=" bg-slate-900 h-36 rounded-lg"
+            className=" bg-slate-900 h-44 rounded-lg"
             onSubmit={(event) => {
               event.preventDefault();
               try {
@@ -84,12 +68,30 @@ export default function AddToCart(meal: MealInfo) {
               }
             }}
           >
+            <div>
+              <motion.svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+                whileHover={{ scale: 1.5 }}
+                onClick={() => meal.setPopUp(false)}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </motion.svg>
+            </div>
             <div className="flex space-x-7">
-              <p className="mt-5 ml-5">{meal.item.menu_item}</p>
-              <p className="mt-5 ml-5">{`$${meal.item.price}.00`}</p>
+              <p className="mt-1 ml-5">{meal.item.menu_item}</p>
+              <p className="mt-1 ml-5">{`$${meal.item.price}.00`}</p>
             </div>
             <label htmlFor="quantity" className="ml-5">
-              Quantity
+              Quantity :
             </label>
             <input
               name="quantity"
@@ -100,14 +102,13 @@ export default function AddToCart(meal: MealInfo) {
               min={1}
               onChange={({ target }) => {
                 SetItem({ ...item, [target.name]: Number(target.value) });
-                console.log(item);
               }}
             />
             <br />
             <div className="flex justify-center">
               <motion.button
-                className="bg-slate-600 hover:bg-yellow-500 rounded-lg h-9 w-24 mt-3"
-                whileHover={{ scale: 1.4 }}
+                className="bg-slate-600 hover:bg-yellow-500 rounded-lg h-9 w-24 mt-2"
+                whileHover={{ scaleX: 1.1 }}
               >
                 Add to cart
               </motion.button>

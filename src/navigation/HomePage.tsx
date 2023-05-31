@@ -4,11 +4,7 @@ import sushi1 from "../imagesAndVideos/sushi-1.png";
 import eatSushi from "../imagesAndVideos/eatSushi.png";
 import { motion } from "framer-motion";
 import "../App.css";
-/**
- * Div will contain an image and quote to the left
- * Div will contain image on the right and quote to the left
- * @returns jsx
- */
+
 export default function HomePage() {
   return (
     <div className="bg-emerald-950 text-stone-100">

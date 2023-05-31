@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import AddToCart from "./AddToCart";
 import { postData } from "../utils/api";
 import { useNavigate } from "react-router-dom";
+import { loader } from "../utils/api";
 
 interface CurrentOrder {
   menu_item?: string;
@@ -23,17 +24,11 @@ interface Receipt {
   receipt: Array<CurrentOrder>;
 }
 
-/**
- * Create a function that can handle post request
- * @returns
- */
-
 export default function Orders() {
   const [sushiOrder, setSushiOrder] = useState<CurrentOrder[]>([]);
   const [menu, setMenu] = useState<MenuList[]>([]);
   const [tempId, setTempId] = useState<number>(0);
   const navigate = useNavigate();
-
   const [popUp, setPopUp] = useState(false);
   const [addOrder, setAddOrder] = useState<MenuList>({
     menu_item: "",
@@ -54,13 +49,10 @@ export default function Orders() {
 
   useEffect(() => {
     const abortController = new AbortController();
-    const loadMenu = async () => {
-      let menuItems = await fetch("http://localhost:5001/sushi");
-      let displayMenu = await menuItems.json();
-      setMenu(displayMenu.data);
-    };
-
-    loadMenu();
+    (async function () {
+      const loadMenu = await loader(abortController.signal);
+      await setMenu(loadMenu);
+    })();
     return () => abortController.abort();
   }, []);
 
@@ -71,30 +63,23 @@ export default function Orders() {
   }, [tempId]);
 
   return (
-    <div className="bg-emerald-950 h-fill text-stone-100">
+    <div className="bg-emerald-950 h-fit text-stone-100">
       <div className="flex justify-start ml-5 pt-3">
         <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6"
         >
           <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M5.79166 2H1V4H4.2184L6.9872 16.6776H7V17H20V16.7519L22.1932 7.09095L22.5308 6H6.6552L6.08485 3.38852L5.79166 2ZM19.9869 8H7.092L8.62081 15H18.3978L19.9869 8Z"
-            fill="currentColor"
-          />
-          <path
-            d="M10 22C11.1046 22 12 21.1046 12 20C12 18.8954 11.1046 18 10 18C8.89543 18 8 18.8954 8 20C8 21.1046 8.89543 22 10 22Z"
-            fill="currentColor"
-          />
-          <path
-            d="M19 20C19 21.1046 18.1046 22 17 22C15.8954 22 15 21.1046 15 20C15 18.8954 15.8954 18 17 18C18.1046 18 19 18.8954 19 20Z"
-            fill="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
           />
         </svg>
+
         <p className="ml-2">{sushiOrder.length}</p>
       </div>
       <div className="flex justify-center md:mt-20">
@@ -120,8 +105,6 @@ export default function Orders() {
                   <motion.li
                     key={meal.sushi_id}
                     onClick={() => {
-                      // setSushiMenuItem(meal.menu_item);
-                      // setItemPrice(meal.price);
                       setTempId((tempId) => tempId + 1);
                       setAddOrder({
                         menu_item: meal.menu_item,
@@ -129,10 +112,8 @@ export default function Orders() {
                         sushi_id: meal.sushi_id,
                         id: tempId + 1,
                       });
-                      console.log("tempId Counter", tempId);
-                      console.log("addOrder.id", addOrder.id);
                     }}
-                    whileHover={{ scale: 1.5, color: "#FFD700" }}
+                    whileHover={{ scale: 1.1, color: "#FFD700" }}
                     transition={{ type: "spring", stiffness: 200 }}
                   >
                     {`${meal.menu_item} - $${meal.price}.00`}
