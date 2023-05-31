@@ -45,7 +45,6 @@ export default function Orders() {
   const postToDataBase = async (item: Receipt) => {
     try {
       const dataToServer = await postData(item);
-      console.log("Server", dataToServer.order_id);
       navigate(`/confirmation/${dataToServer.order_id}`);
     } catch (error) {
       console.log(error);
@@ -125,8 +124,7 @@ export default function Orders() {
                         id: tempId + 1,
                       });
                     }}
-                    whileHover={{ scale: 1.1, color: "#FFD700" }}
-                    transition={{ type: "spring", stiffness: 200 }}
+                    whileHover={{ color: "#FFD700" }}
                   >
                     {`${meal.menu_item} - $${meal.price}.00`}
                   </motion.li>
