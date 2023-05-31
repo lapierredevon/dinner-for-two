@@ -28,6 +28,7 @@ export default function Orders() {
   const [sushiOrder, setSushiOrder] = useState<CurrentOrder[]>([]);
   const [menu, setMenu] = useState<MenuList[]>([]);
   const [tempId, setTempId] = useState<number>(0);
+
   const navigate = useNavigate();
   const [popUp, setPopUp] = useState(false);
   const [addOrder, setAddOrder] = useState<MenuList>({
@@ -37,6 +38,10 @@ export default function Orders() {
     id: 0,
   });
 
+  /**
+   * This function makes a post request to the database.
+   * This function uses the orderId that is returned and navigates to the confirmation page.
+   */
   const postToDataBase = async (item: Receipt) => {
     try {
       const dataToServer = await postData(item);
@@ -47,6 +52,9 @@ export default function Orders() {
     }
   };
 
+  /**
+   * useEffect uses loader function to get a list of menu items from the database.
+   */
   useEffect(() => {
     const abortController = new AbortController();
     (async function () {
@@ -56,6 +64,10 @@ export default function Orders() {
     return () => abortController.abort();
   }, []);
 
+  /**
+   * When pop-up is set to true it will trigger a pop-up to appear.
+   * The pop-up contains a form which is used to determine the quantity of the item you want to order.
+   */
   useEffect(() => {
     if (addOrder.menu_item !== "" && addOrder.id === tempId) {
       setPopUp(true);
