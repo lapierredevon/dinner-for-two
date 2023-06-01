@@ -34,7 +34,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var API_BASE_URL = "http://localhost:5001";
+// const API_BASE_URL = "http://localhost:5001";
+var API_BASE_URL = "https://dinner-for-two-server.onrender.com";
 var headers = new Headers();
 headers.append("Content-Type", "application/json");
 var fetchJson = function (url, option, onCancel) { return __awaiter(void 0, void 0, void 0, function () {
